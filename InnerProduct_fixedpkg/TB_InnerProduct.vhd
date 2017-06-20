@@ -1,6 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use ieee.fixed_pkg.all;
 use STD.textio.all; -- Imports the standard textio package.
 
 entity TB_InnerProduct is
@@ -12,17 +13,17 @@ architecture behaviour of TB_InnerProduct is
     port(
       clk : in std_logic;
       reset : in std_logic;
-      input : in unsigned(15 downto 0);
+      input : in ufixed(0 downto -15);
       StartCalculation : in std_logic;
-      InnerProductOutput : out unsigned(33 downto 0)
+      InnerProductOutput : out ufixed(4 downto -29)
       );
   end component;
 
   signal clk : std_logic;
   signal reset : std_logic;
-  signal input : unsigned(15 downto 0);
+  signal input : ufixed(0 downto -15);
   signal StartCalculation : std_logic;
-  signal InnerProductOutput : unsigned(33 downto 0);
+  signal InnerProductOutput : ufixed(4 downto -29);
     
   constant clk_period : time := 5 ns;
 
@@ -40,8 +41,8 @@ begin
   clk_process : process is
     variable l : line;
   begin
-    write(l, integer'image(to_integer(unsigned(InnerProductOutput))));
-    writeline(output, l);
+    --    write(l, real'image(to_real(InnerProductOutput)));
+    --    writeline(output, l);
     wait for clk_period/2;
     clk <= '1';
     wait for clk_period/2;
@@ -56,7 +57,7 @@ begin
     wait for 1*clk_period;
     StartCalculation <= '1';
     wait for 1*clk_period;
-    input <= to_unsigned(0.5*2**15, 16); -- 0.5 in Q1.15
+    input <= to_ufixed(0.5,0,-15); -- 0.5 in Q1.15
     
     wait;
   end process StimulusProcess;
