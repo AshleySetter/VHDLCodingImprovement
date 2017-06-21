@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ghdl -a InnerProduct.vhd
-ghdl -a TB_InnerProduct.vhd
-ghdl -e TB_InnerProduct
-ghdl -r TB_InnerProduct --stop-time=100ns
+ghdl -a --std=08 InnerProduct.vhd
+ghdl -a --std=08 TB_InnerProduct.vhd
+ghdl -e --std=08 TB_InnerProduct
+ghdl -r --std=08 TB_InnerProduct --stop-time=100ns

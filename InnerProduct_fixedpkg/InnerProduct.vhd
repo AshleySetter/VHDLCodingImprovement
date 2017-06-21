@@ -10,15 +10,15 @@ entity InnerProduct is
     reset : in std_logic;
     input : in ufixed(0 downto -15); -- Q1.15
     StartCalculation : in std_logic;
-      InnerProductOutput : out ufixed(4 downto -29) -- Q5.29
-      );
-  end InnerProduct;
+    InnerProductOutput : out ufixed(4 downto -29) -- Q5.29
+    );
+end InnerProduct;
 
 architecture InnerProductArchitecture of InnerProduct is
 -- declarations
   constant VectorLength : integer := 3;
               
-  type vector_ufixed is array(VectorLength-1 downto 0) of ufixed(1 downto -14);
+  type vector_ufixed is array(0 to VectorLength-1) of ufixed(1 downto -14);
   
   constant InnerProductArray : vector_ufixed := (to_ufixed(1.2,1,-14), to_ufixed(1.0,1,-14), to_ufixed(0.2,1,-14));
   -- Q2.14 ; Values are : 1.2, 1.0 and 0.2
@@ -48,12 +48,14 @@ begin
           counting <= '1';
         end if;
         if counting = '1' and counter < VectorLength then
-          write(l, real'image(to_real(InnerProductResult)));
-          write(l, string'(", "));
-          write(l, real'image(to_real(InnerProductResult + input*InnerProductArray(counter))));
-          writeline(output, l);
-          InnerProductResult <= InnerProductResult +
-                                input*InnerProductArray(counter);
+--          write(l, real'image(to_real(InnerProductResult)));
+--          write(l, string'(", "));
+--          write(l, real'image(to_real(InnerProductResult + input*InnerProductArray(counter))));
+--          writeline(output, l);
+          InnerProductResult <= resize(
+            arg => InnerProductResult + input*InnerProductArray(counter),
+            size_res => InnerProductResult
+            );
           counter <= counter + 1;
         end if;
         if counter = VectorLength then
