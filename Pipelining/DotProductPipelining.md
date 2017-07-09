@@ -1,6 +1,6 @@
 This document shows various implementations of a dot (inner) product.
 
-I.e. the operation <div style="width:20%">![maths](latexmaths.png)</div>
+I.e. the operation ![maths](latexmaths.png)
 
 ### Full-Parallel Implementation
 
