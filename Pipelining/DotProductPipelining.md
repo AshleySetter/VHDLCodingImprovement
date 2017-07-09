@@ -1,6 +1,6 @@
 This document shows various implementations of a dot (inner) product.
 
-I.e. the operation ![maths](latexmaths.png)
+I.e. the operation ![maths](latexmaths.png  =50x)
 
 ### Full-Parallel Implementation
 
