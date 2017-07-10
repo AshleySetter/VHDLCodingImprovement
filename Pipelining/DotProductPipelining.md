@@ -85,7 +85,7 @@ for i in 0 to N-1 loop
 end loop;
 
 N_cnt = shift_right(N, 1)
-while N_cnt > 1 loop
+while N_cnt > 0 loop
       for i in 0 to N_cnt-1 loop
       	  s_tmp[i] = s_tmp[i*2] + s_tmp[i*2+1];
 	  -- s_tmp will be overwritten each clock cycle
@@ -95,7 +95,7 @@ while N_cnt > 1 loop
       N_cnt = shift_right(N_cnt, 1)
 end loop
 
-s = s_tmp[0] + s_tmp[1]
+s = s_tmp[0]
 ```
 
-You could pad the 2 arrays you wish to calculate the inner product of such that they are a power of 2.
+You could pad the 2 arrays you wish to calculate the inner product of with zeros such that they have a length which is a power of 2. This takes 1+ceil(log_2(N)) clock cycles.

@@ -16,7 +16,7 @@ print(s_tmp)
 N_cnt = N>>1 # bit shift right by 1 (i.e. N/2)
 
 
-while N_cnt > 1:
+while N_cnt > 0:
     for i in range(0, N_cnt):
         #print("{} = {} + {}".format(s_tmp[i*2] + s_tmp[i*2+1], s_tmp[i*2], s_tmp[i*2+1]))
         #print("s_tmp[{}] = s_tmp[{}] + s_tmp[{}]".format(i, i*2, i*2+1))
@@ -24,8 +24,9 @@ while N_cnt > 1:
     N_cnt = N_cnt>>1
     NumClkCycles += 1
 
-s = s_tmp[0]+s_tmp[1]
-NumClkCycles += 1
+s = s_tmp[0]
+
+print(np.ceil(np.log2(N)))
 
 print("Code Ans: {} for in {} clk cycles".format(s, NumClkCycles))
 
