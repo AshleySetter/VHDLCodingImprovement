@@ -44,3 +44,58 @@ s = s2[0] + s2[1]
 
 ![Diagram of Pipelined implementation](DotProduct_Pipelined.png "Pipelined implementation")
 
+The code below implements the same thing, but is done with for loops.
+
+```vhdl
+for i in 0 to 3 loop
+    s1[i] = a[i]*b[i]
+end loop;
+
+for i in 0 to 1 loop
+    s2[i] = s1[i*2] + s1[i*2+1]
+end loop;
+
+s = s2[0] + s2[1]
+```
+
+For a length 8 array you would do:
+
+```vhdl
+for i in 0 to 7 loop
+    s1[i] = a[i]*b[i]
+end loop;
+
+for i in 0 to 3 loop
+    s2[i] = s1[i*2] + s1[i*2+1]
+end loop;
+
+for i in 0 to 1 loop:
+    s3[i] = s2[i*2] + s2[i*2+1]
+
+s = s3[0] + s3[1]
+```
+
+For a length N array (where N is a power of 2) you could do:
+
+```vhdl
+N = 8
+
+for i in 0 to N-1 loop
+    s_tmp[i] = a[i]*b[i]
+end loop;
+
+N_cnt = shift_right(N, 1)
+while N_cnt > 1 loop
+      for i in 0 to N_cnt-1 loop
+      	  s_tmp[i] = s_tmp[i*2] + s_tmp[i*2+1];
+	  -- s_tmp will be overwritten each clock cycle
+	  -- rather than creating many shorter and shorter arrays
+	  -- just re-use registers
+      end loop
+      N_cnt = shift_right(N_cnt, 1)
+end loop
+
+s = s_tmp[0] + s_tmp[1]
+```
+
+You could pad the 2 arrays you wish to calculate the inner product of such that they are a power of 2.
